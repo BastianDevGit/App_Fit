@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: pt
+      POSTGRES_PASSWORD: pt
+      POSTGRES_DB: pt
+    ports: ["5432:5432"]
+  api:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgresql+psycopg://pt:pt@db:5432/pt
+      LLM_PROVIDER: fake
+    ports: ["8000:8000"]
+    depends_on: [db]

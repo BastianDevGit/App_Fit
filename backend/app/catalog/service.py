@@ -36,6 +36,7 @@ class Exercise(BaseModel):
     vision_cfg: str | None = None
     camera_angle: str | None = None
     conservative_ratio: float | None = None
+    units: int | None = None  # cuántas mancuernas/kettlebells se usan; None = 2 si aplica
 
 
 # --- Implementos del usuario ---------------------------------------------------

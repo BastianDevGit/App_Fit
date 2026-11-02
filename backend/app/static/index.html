@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Personal Trainer IA · Demo del MVP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap">
+<style>
+:root{--bg:#F5F4F0;--card:#FFFFFF;--ink:#15171C;--muted:#4B505B;--line:#DAD8D2;--accent:#1F4E3D;--soft:#E3ECE7;--warn:#8A2E0C;--warnbg:#FBEDE4}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 Inter,system-ui,sans-serif}
+main{max-width:460px;margin:0 auto;padding:20px 16px 96px}
+h1,h2,h3{font-family:'Space Grotesk',sans-serif;margin:0}
+h1{font-size:26px}h2{font-size:20px;margin-bottom:10px}h3{font-size:17px}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--accent)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0}
+.soft{background:var(--soft);border-color:#B8CCC1}
+.warn{background:var(--warnbg);border-color:#E9C2A8;color:#6E2A10}
+.muted{color:var(--muted);font-size:13px}
+label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin:10px 0 4px}
+label.check{display:flex;gap:10px;align-items:flex-start;font-weight:500;color:var(--ink);font-size:14px}
+input[type=checkbox]{width:20px;height:20px;accent-color:var(--accent);flex:none;margin:0}
+input,select,textarea{width:100%;height:44px;border:1px solid #CFCCC4;border-radius:10px;padding:0 12px;font:inherit;background:#fff;color:var(--ink)}
+textarea{height:auto;padding:10px 12px;resize:vertical}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{font:inherit;cursor:pointer}
+.btn{width:100%;min-height:48px;border:none;border-radius:12px;background:var(--accent);color:#fff;font-weight:600;font-size:16px;margin-top:12px}
+.btn.dark{background:var(--ink)}.btn.ghost{background:#fff;color:var(--ink);border:1px solid #CFCCC4}
+.btn:disabled{background:var(--line);color:var(--muted);cursor:default}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.pill{min-width:44px;height:44px;border-radius:10px;border:1px solid #CFCCC4;background:#fff;font-weight:600}
+.pill[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:#fff}
+.tag{display:inline-block;padding:3px 9px;border-radius:999px;background:var(--soft);color:var(--accent);font-size:12px;font-weight:600}
+.set{display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px solid #ECEAE5}
+.set input{width:70px;height:40px}
+.kv{display:flex;justify-content:space-between;gap:10px;font-size:14px}
+nav{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr)}
+nav button{height:60px;border:none;background:none;font-weight:600;color:var(--muted)}
+nav button[aria-current=page]{color:var(--accent)}
+.hidden{display:none}
+pre{white-space:pre-wrap;font-size:12px;color:var(--muted)}
+details summary{cursor:pointer;font-weight:600;color:var(--accent);font-size:14px}
+</style>
+</head>
+<body>
+<main>
+<div class="eyebrow">DEMO DEL BACKEND · MVP 0.1</div>
+<h1 id="title">Personal Trainer IA</h1>
+<p class="muted">Prueba el motor de progresión, los bloques generados con el catálogo cerrado y la dieta. El LLM está simulado.</p>
+
+<!-- ONBOARDING -->
+<section id="v-onb">
+<div class="card">
+<h2>1 · Crea tu perfil</h2>
+<label class="check"><input type="checkbox" id="c-health"> Acepto el tratamiento de mis datos de salud y entrenamiento (requerido)</label>
+<label class="check" style="margin-top:8px"><input type="checkbox" id="c-camera"> Cámara para feedback de técnica (video solo local)</label>
+<label class="check" style="margin-top:8px"><input type="checkbox" id="c-parq"> Respondí "no" a las 7 preguntas del PAR-Q</label>
+<div class="grid2">
+<div><label for="age">Edad</label><input id="age" type="number" value="29"></div>
+<div><label for="weight">Peso (kg)</label><input id="weight" type="number" value="68"></div>
+</div>
+<div class="grid2">
+<div><label for="level">Nivel</label><select id="level"><option>principiante</option><option selected>intermedio</option><option>avanzado</option></select></div>
+<div><label for="goal">Objetivo</label><select id="goal"><option value="fuerza">Ganar fuerza</option><option value="masa">Ganar masa</option><option value="bajar_grasa">Bajar grasa</option><option value="salud">Salud general</option></select></div>
+</div>
+<div class="grid2">
+<div><label for="days">Días por semana</label><select id="days"><option>2</option><option selected>3</option><option>4</option><option>5</option></select></div>
+<div><label for="minutes">Minutos por sesión</label><select id="minutes"><option>30</option><option selected>45</option><option>60</option></select></div>
+</div>
+<label for="equip">Implementos</label>
+<select id="equip"><option value="gym">Gimnasio completo (barra, mancuernas, polea, banco, rack)</option><option value="home">Casa (mancuernas 2–12 kg y bandas)</option><option value="bw">Solo peso corporal</option></select>
+<label for="calib">Prueba inicial (sentadilla con barra)</label>
+<select id="calib"><option value="yes">Hice 50 kg × 8 dejando 3 en reserva</option><option value="no">Omitir: empezar con cargas conservadoras</option></select>
+<button class="btn" id="b-create">Crear mi plan</button>
+<p class="muted" id="onb-msg"></p>
+</div>
+</section>
+
+<!-- HOY -->
+<section id="v-today" class="hidden">
+<div class="card">
+<div class="kv"><h2>Hoy</h2><span class="tag" id="streak-tag"></span></div>
+<div class="muted">¿Cómo llegas? (1 = muy bien, 5 = muy mal)</div>
+<div id="readiness"></div>
+<div class="grid2">
+<div><label for="week">Semana del bloque</label><select id="week"><option>1</option><option>2</option><option>3</option><option>4</option></select></div>
+<div><label for="day">Día</label><select id="day"></select></div>
+</div>
+<label class="check" style="margin-top:12px"><input type="checkbox" id="hard"> Día difícil: versión de 15–20 min</label>
+<button class="btn dark" id="b-plan">Ver mi sesión</button>
+</div>
+<div id="plan"></div>
+</section>
+
+<!-- PROGRESO -->
+<section id="v-progress" class="hidden"><div id="progress"></div></section>
+
+<!-- DIETA -->
+<section id="v-diet" class="hidden">
+<div class="card">
+<h2>Dieta</h2>
+<label for="meal">¿Qué comiste?</label>
+<textarea id="meal" rows="2">Almuerzo: un plato de porotos con riendas y una marraqueta con palta</textarea>
+<button class="btn dark" id="b-parse">Estimar</button>
+<p class="muted">Prueba también: "2 huevos y una taza de leche", "200 g de pollo con arroz", "un plato grande de cazuela".</p>
+</div>
+<div id="parsed"></div>
+<div id="diet-day"></div>
+</section>
+
+<details class="card"><summary>Detalle técnico (trazas del LLM)</summary><pre id="traces"></pre></details>
+</main>
+
+<nav aria-label="Principal">
+<button data-v="onb" aria-current="page">Perfil</button>
+<button data-v="today">Hoy</button>
+<button data-v="diet">Dieta</button>
+<button data-v="progress">Progreso</button>
+</nav>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const el = (tag, attrs = {}, ...kids) => {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === 'class') n.className = v; else if (k.startsWith('on')) n.addEventListener(k.slice(2), v); else n.setAttribute(k, v);
+  }
+  for (const k of kids.flat()) n.append(k instanceof Node ? k : document.createTextNode(String(k ?? '')));
+  return n;
+};
+const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
+let UID = store.get('pt_uid');
+let PLAN = null, PARSED = null;
+
+async function api(method, path, body) {
+  const r = await fetch(path, { method, headers: { 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined });
+  const data = r.status === 204 ? null : await r.json();
+  if (!r.ok) throw new Error((data && data.detail && (typeof data.detail === 'string' ? data.detail : JSON.stringify(data.detail))) || r.statusText);
+  return data;
+}
+const kg = (x) => String(x).replace('.', ',');
+
+function show(view) {
+  for (const v of ['onb', 'today', 'progress', 'diet']) $('#v-' + v).classList.toggle('hidden', v !== view);
+  document.querySelectorAll('nav button').forEach(b => b.setAttribute('aria-current', b.dataset.v === view ? 'page' : 'false'));
+  if (view === 'progress') loadProgress();
+  if (view === 'diet') loadDietDay();
+  if (view === 'today') loadStreak();
+  refreshTraces();
+}
+document.querySelectorAll('nav button').forEach(b => b.addEventListener('click', () => {
+  if (!UID && b.dataset.v !== 'onb') { $('#onb-msg').textContent = 'Primero crea tu perfil.'; return; }
+  show(b.dataset.v);
+}));
+
+const EQUIP = {
+  gym: { environment: 'gimnasio', barra: { bar_kg: 20, plates: { '20': 1, '15': 1, '10': 1, '5': 2, '2.5': 2, '1.25': 1 } },
+         mancuernas: { min: 2.5, max: 25, step: 2.5 }, polea: { min: 5, max: 80, step: 5 }, maquinas: { min: 10, max: 200, step: 10 }, simple: ['banco', 'rack'] },
+  home: { environment: 'casa', mancuernas: { min: 2, max: 12, step: 2 }, simple: ['bandas'] },
+  bw: { environment: 'casa', simple: [] },
+};
+
+$('#b-create').addEventListener('click', async () => {
+  const msg = $('#onb-msg'); msg.textContent = 'Creando…';
+  try {
+    if (!$('#c-health').checked) throw new Error('Necesitamos el permiso de datos de salud para crear tu plan.');
+    const u = await api('POST', '/api/users', { health: true, camera: $('#c-camera').checked });
+    UID = u.id; store.set('pt_uid', UID);
+    const yes = !$('#c-parq').checked;
+    const pq = await api('POST', `/api/users/${UID}/parq`, { answers: [yes, false, false, false, false, false, false], authorized: false });
+    if (!pq.cleared) throw new Error(pq.message + ' (En la app se pide confirmar la autorización antes de seguir.)');
+    await api('PUT', `/api/users/${UID}/profile`, { age: +$('#age').value, weight_kg: +$('#weight').value, level: $('#level').value,
+      goal: $('#goal').value, days_per_week: +$('#days').value, minutes_per_session: +$('#minutes').value });
+    await api('PUT', `/api/users/${UID}/equipment`, EQUIP[$('#equip').value]);
+    const calibrate = $('#calib').value === 'yes' && $('#equip').value === 'gym';
+    await api('POST', `/api/users/${UID}/calibration`, calibrate ? { sets: [{ exercise_id: 'EJ-001', load: 50, reps: 8, rir: 3 }] } : { skipped: true });
+    const block = await api('POST', `/api/users/${UID}/blocks`);
+    msg.textContent = '';
+    renderBlock(block);
+  } catch (e) { msg.textContent = e.message; }
+});
+
+function renderBlock(block) {
+  const card = el('div', { class: 'card soft' },
+    el('h3', {}, `Tu bloque: ${block.weeks} semanas`),
+    el('p', { class: 'muted' }, block.rationale + (block.source === 'fallback' ? ' (plantilla base)' : '') + ` · intentos del LLM: ${block.attempts.length}`),
+    ...block.days.map(d => el('div', { style: 'margin-top:8px' }, el('strong', {}, `Día ${d.name}: `), d.exercises.map(e => e.name).join(' · '))),
+    el('button', { class: 'btn', onclick: () => show('today') }, 'Ir a hoy'));
+  $('#v-onb').append(card);
+  const sel = $('#day'); sel.innerHTML = '';
+  block.days.forEach((d, i) => sel.append(el('option', { value: i }, `Día ${d.name}`)));
+}
+
+// --- Check-in ---
+const READY = { fatigue: 3, sleep: 3, soreness: 3, stress: 3 };
+const LABELS = { fatigue: 'Fatiga', sleep: 'Sueño', soreness: 'Dolor muscular', stress: 'Estrés' };
+function renderReadiness() {
+  const box = $('#readiness'); box.innerHTML = '';
+  for (const k of Object.keys(READY)) {
+    box.append(el('div', { class: 'row', style: 'margin-top:6px;flex-wrap:nowrap;gap:4px' }, el('span', { style: 'width:96px;flex:none;font-size:13px' }, LABELS[k]),
+      ...[1, 2, 3, 4, 5].map(n => el('button', { class: 'pill', style: 'flex:1;min-width:0', 'aria-pressed': READY[k] === n, 'aria-label': `${LABELS[k]} ${n}`,
+        onclick: () => { READY[k] = n; renderReadiness(); } }, n))));
+  }
+}
+renderReadiness();
+
+async function loadStreak() {
+  if (!UID) return;
+  const p = await api('GET', `/api/users/${UID}/progress`);
+  $('#streak-tag').textContent = `Racha: ${p.streak.weeks} sem · ${p.streak.this_week}/${p.streak.goal_per_week} esta semana`;
+}
+
+$('#b-plan').addEventListener('click', async () => {
+  try {
+    await api('POST', `/api/users/${UID}/readiness`, READY);
+    PLAN = await api('GET', `/api/users/${UID}/sessions/today?week=${$('#week').value}&day=${$('#day').value || 0}&hard_day=${$('#hard').checked}`);
+    renderPlan();
+  } catch (e) { $('#plan').textContent = e.message; }
+});
+
+function renderPlan() {
+  const box = $('#plan'); box.innerHTML = '';
+  box.append(el('div', { class: 'card' }, el('h3', {}, `Día ${PLAN.day} · ~${PLAN.estimated_minutes} min`),
+    el('div', { class: 'muted' }, PLAN.short ? 'Versión corta: no afecta tu progresión.' : PLAN.focus),
+    PLAN.deload ? el('p', { class: 'tag' }, 'Semana de descarga') : '',
+    el('div', { class: 'muted' }, `motor ${PLAN.engine_version} · prompt ${PLAN.prompt_version}`)));
+  PLAN.exercises.forEach(ex => box.append(exerciseCard(ex)));
+  box.append(el('button', { class: 'btn', onclick: completeSession }, 'Terminar sesión'));
+}
+
+function exerciseCard(ex) {
+  const card = el('div', { class: 'card' });
+  let currentLoad = ex.load;
+  const header = el('div', {}, el('div', { class: 'kv' }, el('h3', {}, ex.name), ex.vision_cfg ? el('span', { class: 'tag' }, 'con cámara') : ''),
+    el('div', { style: 'font-size:16px;font-weight:600;margin-top:4px' }, `${ex.sets} × ${ex.reps}${ex.unit === 's' ? ' s' : ''} · ${ex.load_label} · dejar ${ex.target_rir} en reserva`));
+  card.append(header);
+  ex.notes.forEach(n => card.append(el('div', { class: 'muted' }, n.text)));
+  if (ex.warmup.length) card.append(el('div', { class: 'muted' }, 'Calentamiento: ' + ex.warmup.map(w => `${kg(w.load)} kg × ${w.reps}`).join(' · ')));
+  if (ex.plates) card.append(el('div', { class: 'muted' }, `Discos por lado (barra ${ex.plates.bar_kg} kg): ` + (ex.plates.per_side.map(kg).join(' + ') || 'ninguno')));
+  const feedback = el('div');
+  for (let i = 1; i <= ex.sets; i++) {
+    const reps = el('input', { type: 'number', value: ex.reps, 'aria-label': `Reps serie ${i}` });
+    const loadIn = el('input', { type: 'number', step: '0.5', value: currentLoad, 'aria-label': `Carga serie ${i}` });
+    let rir = ex.target_rir;
+    const rirRow = el('div', { class: 'row' });
+    const drawRir = () => { rirRow.innerHTML = ''; [0, 1, 2, 3, 4, 5].forEach(n => rirRow.append(el('button', { class: 'pill', 'aria-pressed': rir === n, onclick: () => { rir = n; drawRir(); } }, n === 5 ? '5+' : n))); };
+    drawRir();
+    const save = el('button', { class: 'pill', style: 'padding:0 12px', onclick: async () => {
+      try {
+        const r = await api('POST', `/api/users/${UID}/sets`, { session_key: PLAN.session_key, exercise_id: ex.exercise_id, set_index: i,
+          load: +loadIn.value, reps: +reps.value, rir, target_rir: ex.target_rir });
+        save.textContent = 'Guardada'; save.disabled = true;
+        if (r.next_set && i < ex.sets) {
+          currentLoad = r.next_set.load;
+          const next = card.querySelector(`[data-set="${i + 1}"] input[aria-label^="Carga"]`);
+          if (next) next.value = currentLoad;
+          feedback.innerHTML = '';
+          feedback.append(el('div', { class: 'card soft' }, el('strong', {}, `Próxima serie: ${kg(r.next_set.load)} kg`),
+            el('details', {}, el('summary', {}, '¿Por qué?'), el('p', {}, r.next_set.explanation))));
+        }
+      } catch (e) { feedback.textContent = e.message; }
+    } }, 'Guardar');
+    card.append(el('div', { class: 'set', 'data-set': i }, el('strong', { style: 'width:20px' }, i), loadIn, el('span', { class: 'muted' }, 'kg'), reps, el('span', { class: 'muted' }, ex.unit === 's' ? 's' : 'reps'), save),
+      el('div', { class: 'muted' }, '¿Cuántas reps más podías hacer?'), rirRow);
+  }
+  card.append(feedback);
+  const swapBox = el('div');
+  card.append(el('div', { class: 'grid2' },
+    el('button', { class: 'btn ghost', onclick: () => doSwap(ex, 'maquina_ocupada', swapBox) }, 'Máquina ocupada'),
+    el('button', { class: 'btn ghost', onclick: () => meMolesta(ex, swapBox) }, 'Me molesta')), swapBox);
+  return card;
+}
+
+function meMolesta(ex, box) {
+  box.innerHTML = '';
+  const zone = el('select', {}, ...['rodilla', 'cadera', 'espalda baja', 'hombro', 'codo', 'muñeca', 'tobillo'].map(z => el('option', {}, z)));
+  const text = el('textarea', { rows: 2, placeholder: 'Ej.: molestia leve al bajar' });
+  const acute = el('input', { type: 'checkbox' });
+  box.append(el('div', { class: 'card' }, el('label', {}, 'Zona'), zone, el('label', {}, 'Cuéntanos qué sientes (opcional)'), text,
+    el('label', { class: 'check', style: 'margin-top:8px' }, acute, 'Es dolor agudo o que no se va'),
+    el('button', { class: 'btn', onclick: () => doSwap(ex, 'me_molesta', box, { zone: zone.value, text: text.value, acute: acute.checked }) }, 'Continuar')));
+}
+
+async function doSwap(ex, reason, box, extra = {}) {
+  try {
+    const r = await api('POST', `/api/users/${UID}/swap`, { exercise_id: ex.exercise_id, reason, reps: ex.reps, target_rir: ex.target_rir, ...extra });
+    box.innerHTML = '';
+    if (r.action === 'derivar') { box.append(el('div', { class: 'card warn' }, el('h3', {}, 'Pausamos tu sesión de hoy'), el('p', {}, r.message))); return; }
+    if (!r.alternatives.length) { box.append(el('div', { class: 'muted' }, 'No hay alternativas compatibles con tus implementos.')); return; }
+    box.append(el('div', { class: 'card soft' }, el('strong', {}, 'Alternativas del mismo patrón:'),
+      ...r.alternatives.map(a => el('div', { class: 'kv' }, el('span', {}, a.name), el('span', {}, `${a.load_label} × ${a.reps}`)))));
+  } catch (e) { box.textContent = e.message; }
+}
+
+async function completeSession() {
+  try {
+    const r = await api('POST', `/api/users/${UID}/sessions/${PLAN.session_key}/complete?short=${PLAN.short}`);
+    const box = $('#plan');
+    box.prepend(el('div', { class: 'card soft' }, el('h3', {}, 'Sesión guardada'),
+      r.personal_records.length ? r.personal_records.map(p => el('div', {}, `Nuevo récord: ${p.name} · fuerza estimada ${kg(p.e1rm)} kg (+${kg(p.delta)})`))
+        : el('div', { class: 'muted' }, PLAN.short ? 'La versión corta no modifica tu progresión.' : 'Actualizamos tu fuerza estimada.')));
+    loadStreak();
+  } catch (e) { alertBox(e.message); }
+}
+function alertBox(m) { $('#plan').prepend(el('div', { class: 'card warn' }, m)); }
+
+async function loadProgress() {
+  const p = await api('GET', `/api/users/${UID}/progress`);
+  const box = $('#progress'); box.innerHTML = '';
+  box.append(el('div', { class: 'card' }, el('h2', {}, 'Progreso'), el('div', {}, `Racha semanal: ${p.streak.weeks} semanas · esta semana ${p.streak.this_week}/${p.streak.goal_per_week}`),
+    el('div', { class: 'muted' }, p.note)));
+  if (!p.e1rm.length) box.append(el('div', { class: 'muted' }, 'Registra y termina una sesión para ver tu fuerza estimada.'));
+  p.e1rm.forEach(s => box.append(el('div', { class: 'card' }, el('div', { class: 'kv' }, el('strong', {}, s.name), el('span', {}, `mejor ${kg(s.best)} kg`)),
+    el('div', { class: 'muted' }, s.points.map(x => `${kg(x.e1rm)} (${x.source === 'calibration' ? 'prueba' : 'sesión'})`).join(' → ')))));
+}
+
+// --- Dieta ---
+$('#b-parse').addEventListener('click', async () => {
+  try { PARSED = await api('POST', '/api/nutrition/parse', { text: $('#meal').value }); renderParsed(); }
+  catch (e) { $('#parsed').textContent = e.message; }
+});
+function renderParsed() {
+  const box = $('#parsed'); box.innerHTML = '';
+  if (!PARSED.items.length) { box.append(el('div', { class: 'card warn' }, PARSED.message || 'No reconocimos alimentos.')); return; }
+  const card = el('div', { class: 'card' });
+  PARSED.items.forEach((it, idx) => {
+    const row = el('div', { style: 'padding:8px 0;border-top:1px solid #ECEAE5' },
+      el('div', { class: 'kv' }, el('strong', {}, it.food_name || it.mention), el('span', {}, it.macros ? `${it.macros.kcal} kcal` : '—')));
+    if (it.needs_portion) {
+      row.append(el('div', { class: 'muted' }, '¿Qué porción?'), el('div', { class: 'row' }, ...it.portion_options.map(o =>
+        el('button', { class: 'pill', style: 'padding:0 10px', onclick: async () => {
+          PARSED.items[idx] = await api('POST', '/api/nutrition/portion', { item: it, unit: o.unit, quantity: it.quantity || 1 });
+          recompute(); renderParsed();
+        } }, `${o.unit} (${o.grams} g)`))));
+    } else if (it.macros) {
+      row.append(el('div', { class: 'muted' }, `${it.quantity ?? 1} ${it.unit} · ${it.grams} g · confianza ${it.confidence} · P ${it.macros.p} C ${it.macros.c} G ${it.macros.f}`));
+    } else row.append(el('div', { class: 'muted' }, 'No encontrado en la base'));
+    card.append(row);
+  });
+  card.append(el('div', { class: 'kv', style: 'margin-top:8px' }, el('strong', {}, 'Total'), el('strong', {}, `${PARSED.totals.kcal} kcal`)),
+    el('div', { class: 'muted' }, PARSED.note),
+    el('button', { class: 'btn', onclick: saveMeal }, PARSED.complete ? 'Guardar comida' : 'Elige las porciones para guardar'));
+  if (!PARSED.complete) card.querySelector('.btn').disabled = true;
+  box.append(card);
+}
+function recompute() {
+  const t = { kcal: 0, p: 0, c: 0, f: 0 };
+  PARSED.items.forEach(i => { if (i.macros) for (const k in t) t[k] += i.macros[k]; });
+  PARSED.totals = { kcal: Math.round(t.kcal), p: +t.p.toFixed(1), c: +t.c.toFixed(1), f: +t.f.toFixed(1) };
+  PARSED.complete = PARSED.items.every(i => i.macros);
+}
+async function saveMeal() {
+  try { await api('POST', `/api/users/${UID}/meals`, { meal: 'comida', items: PARSED.items }); $('#parsed').innerHTML = ''; loadDietDay(); }
+  catch (e) { $('#parsed').append(el('div', { class: 'card warn' }, e.message)); }
+}
+async function loadDietDay() {
+  const d = await api('GET', `/api/users/${UID}/nutrition/today`);
+  const t = d.targets; const box = $('#diet-day'); box.innerHTML = '';
+  box.append(el('div', { class: 'card soft' }, el('h3', {}, `Hoy: ${Math.round(d.totals.kcal)} kcal`),
+    t ? el('div', { class: 'muted' }, `Rango del día ${t.kcal.min}–${t.kcal.max} kcal · proteína ${t.protein_g.min}–${t.protein_g.max} g. ${t.message}`) : '',
+    ...d.meals.map(m => el('div', { class: 'kv' }, el('span', {}, m.meal), el('span', {}, `${m.totals.kcal} kcal`)))));
+}
+
+async function refreshTraces() {
+  try { const t = await api('GET', '/api/ops/llm-traces?limit=5'); $('#traces').textContent = JSON.stringify(t, null, 1); } catch {}
+}
+
+if (UID) {
+  api('GET', `/api/users/${UID}/progress`).then(() => api('GET', `/api/users/${UID}/sessions/today`)).then(p => {
+    const sel = $('#day'); sel.innerHTML = '';
+    ['A', 'B', 'C', 'D', 'E', 'F'].forEach((n, i) => sel.append(el('option', { value: i }, `Día ${n}`)));
+    show('today');
+  }).catch(() => { UID = null; store.set('pt_uid', ''); });
+}
+</script>
+</body>
+</html>

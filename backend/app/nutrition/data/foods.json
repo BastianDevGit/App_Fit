@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "status": "PROVISIONAL",
+    "note": "Valores aproximados por 100 g, solo para desarrollo. Reemplazar por USDA FoodData Central y tablas chilenas de composición (HU-062), guardando la fuente de cada alimento."
+  },
+  "foods": [
+    {"id": "arroz_cocido", "name": "Arroz blanco cocido", "aliases": ["arroz"], "per100": {"kcal": 130, "p": 2.7, "c": 28.2, "f": 0.3}, "portions": {"plato": 200, "taza": 160, "cucharada": 15}, "default_portion": null},
+    {"id": "pollo_pechuga", "name": "Pechuga de pollo cocida", "aliases": ["pollo", "pechuga de pollo", "pechuga"], "per100": {"kcal": 165, "p": 31, "c": 0, "f": 3.6}, "portions": {"presa": 120, "unidad": 120}, "default_portion": "presa"},
+    {"id": "arroz_con_pollo", "name": "Arroz con pollo", "aliases": ["arroz con pollo"], "per100": {"kcal": 150, "p": 9, "c": 18, "f": 4.5}, "portions": {"plato chico": 250, "plato": 350, "plato grande": 450}, "default_portion": null},
+    {"id": "porotos_riendas", "name": "Porotos con riendas", "aliases": ["porotos con riendas", "porotos"], "per100": {"kcal": 131, "p": 5.8, "c": 19.2, "f": 3.4}, "portions": {"plato chico": 250, "plato": 350, "plato grande": 450}, "default_portion": null},
+    {"id": "cazuela_vacuno", "name": "Cazuela de vacuno", "aliases": ["cazuela"], "per100": {"kcal": 75, "p": 5.5, "c": 6.5, "f": 3}, "portions": {"plato chico": 350, "plato": 450, "plato grande": 550}, "default_portion": null},
+    {"id": "pastel_choclo", "name": "Pastel de choclo", "aliases": ["pastel de choclo"], "per100": {"kcal": 155, "p": 8, "c": 17, "f": 6}, "portions": {"porcion": 350, "plato": 400}, "default_portion": "porcion"},
+    {"id": "empanada_pino", "name": "Empanada de pino horneada", "aliases": ["empanada de pino", "empanada"], "per100": {"kcal": 270, "p": 10, "c": 28, "f": 13}, "portions": {"unidad": 250}, "default_portion": "unidad"},
+    {"id": "marraqueta", "name": "Marraqueta", "aliases": ["marraqueta", "pan batido", "pan"], "per100": {"kcal": 270, "p": 8.5, "c": 55, "f": 1.5}, "portions": {"unidad": 100, "media": 50}, "default_portion": "unidad"},
+    {"id": "hallulla", "name": "Hallulla", "aliases": ["hallulla"], "per100": {"kcal": 300, "p": 8, "c": 55, "f": 5.5}, "portions": {"unidad": 90}, "default_portion": "unidad"},
+    {"id": "palta", "name": "Palta Hass", "aliases": ["palta"], "per100": {"kcal": 160, "p": 2, "c": 8.5, "f": 14.7}, "portions": {"cucharada": 25, "unidad": 150, "media": 75}, "default_portion": null},
+    {"id": "huevo", "name": "Huevo", "aliases": ["huevo", "huevos"], "per100": {"kcal": 143, "p": 12.6, "c": 0.7, "f": 9.5}, "portions": {"unidad": 50}, "default_portion": "unidad"},
+    {"id": "leche_entera", "name": "Leche entera", "aliases": ["leche"], "per100": {"kcal": 61, "p": 3.2, "c": 4.8, "f": 3.3}, "portions": {"taza": 240, "vaso": 200}, "default_portion": "taza"},
+    {"id": "yogur_natural", "name": "Yogur natural", "aliases": ["yogur", "yogurt"], "per100": {"kcal": 61, "p": 3.5, "c": 4.7, "f": 3.3}, "portions": {"unidad": 125, "pote": 125}, "default_portion": "unidad"},
+    {"id": "avena", "name": "Avena en hojuelas", "aliases": ["avena"], "per100": {"kcal": 389, "p": 16.9, "c": 66.3, "f": 6.9}, "portions": {"taza": 80, "cucharada": 10}, "default_portion": null},
+    {"id": "platano", "name": "Plátano", "aliases": ["platano", "banana"], "per100": {"kcal": 89, "p": 1.1, "c": 22.8, "f": 0.3}, "portions": {"unidad": 120}, "default_portion": "unidad"},
+    {"id": "manzana", "name": "Manzana", "aliases": ["manzana"], "per100": {"kcal": 52, "p": 0.3, "c": 13.8, "f": 0.2}, "portions": {"unidad": 180}, "default_portion": "unidad"},
+    {"id": "fideos_cocidos", "name": "Fideos cocidos", "aliases": ["fideos", "tallarines", "pasta"], "per100": {"kcal": 158, "p": 5.8, "c": 30.9, "f": 0.9}, "portions": {"plato": 250, "taza": 140}, "default_portion": null},
+    {"id": "papas_cocidas", "name": "Papas cocidas", "aliases": ["papas", "papa", "pure"], "per100": {"kcal": 87, "p": 1.9, "c": 20.1, "f": 0.1}, "portions": {"unidad": 150, "plato": 250}, "default_portion": null},
+    {"id": "carne_vacuno", "name": "Carne de vacuno cocida", "aliases": ["carne", "bistec", "posta"], "per100": {"kcal": 250, "p": 26, "c": 0, "f": 15}, "portions": {"bistec": 150, "unidad": 150}, "default_portion": "bistec"},
+    {"id": "salmon", "name": "Salmón cocido", "aliases": ["salmon"], "per100": {"kcal": 208, "p": 20, "c": 0, "f": 13}, "portions": {"filete": 150}, "default_portion": "filete"},
+    {"id": "queso_gauda", "name": "Queso gauda", "aliases": ["queso"], "per100": {"kcal": 356, "p": 25, "c": 2.2, "f": 27}, "portions": {"lamina": 20, "rebanada": 20}, "default_portion": "lamina"},
+    {"id": "ensalada_chilena", "name": "Ensalada chilena (sin aceite)", "aliases": ["ensalada chilena", "ensalada"], "per100": {"kcal": 20, "p": 0.9, "c": 4.2, "f": 0.2}, "portions": {"plato": 150, "porcion": 150}, "default_portion": "porcion"},
+    {"id": "aceite", "name": "Aceite vegetal", "aliases": ["aceite"], "per100": {"kcal": 884, "p": 0, "c": 0, "f": 100}, "portions": {"cucharada": 14, "cucharadita": 5}, "default_portion": "cucharada"},
+    {"id": "batido_proteina", "name": "Batido de proteína en agua", "aliases": ["batido de proteina", "proteina", "whey"], "per100": {"kcal": 380, "p": 75, "c": 8, "f": 5}, "portions": {"scoop": 30, "medida": 30}, "default_portion": "scoop"}
+  ]
+}
